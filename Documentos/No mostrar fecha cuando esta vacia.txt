@@ -1,0 +1,19 @@
+
+						//$time = strtotime($inputDate);
+//$date = ($time === false) ? '0000-00-00 00:00:00' : date('Y-m-d H:i:s', $time);
+
+
+
+	<tr align="center">
+	<td height="15" valign=middle class="txt">Fecha de Ingreso a la empresa:</td>
+	<td height="15" valign=middle class="txt1">
+		<?
+			switch ($row ['TFING']){
+				case '0000-00-00': print ""; break;
+				case null: print ""; break;
+				default: print date ( "d-m-Y", strtotime($row ['TFING']) );
+			}
+		?>
+	</td>
+			</tr>
+

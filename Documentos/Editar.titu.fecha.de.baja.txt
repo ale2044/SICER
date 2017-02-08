@@ -1,0 +1,56 @@
+    <!--
+		<tr ALIGN="center">
+	    <td height="15" valign=middle colspan="2"><br>···························..:: Fechas de Bajas ::..······························</td></tr>
+		<? //b if ($row['TSINDI'] == "NO"){?>
+		<tr align="center">
+				<td height="15" valign=middle class="txt2">Fecha de BAJA de Sindicato:</td>
+					<td height="15" valign=middle>
+
+						<?//b print date('d-m-Y', strtotime($row['TFECBAJS']));?>
+						<input type="hidden" name="buff_fbsindi" readonly="readonly" value="<?//b print $row['TFECBAJS']; ?>" />
+						<b></b>
+					</td>
+		</tr>
+
+		<tr align="center">
+				<td height="15" valign=middle class="txt">Modificar Fecha:</td>
+				<td height="15" valign=middle><input type="date" name="fecha_bsindi" id="fecha_bsindi"></td>
+		</tr>
+		<tr ALIGN="center">
+		<td height="15" valign=middle colspan="2">···················································································· </td></tr>
+		<?;}?>
+		<?//b if ($row['TOSOC'] == "NO"){?>		
+		<tr align="center">
+				<td height="15" valign=middle class="txt2">Fecha de BAJA de Obra Social:</td>
+				<td height="15" valign=middle>
+						<?//b $fbaja1 = $row ['TFECBAJAOS'];?>
+						<input type="hidden" name="buff_fbajaos" readonly="readonly" value="<?//b print $fbaja1; ?>" />
+						<b><?//b if($row['TFECBAJAOS']!="0000-00-00"){echo date('d-m-Y',strtotime($fbaja1));}?></b>
+				</td>
+			</tr>
+			<tr align="center">
+				<td height="15" valign=middle class="txt">Modificar Fecha:</td>
+				<td height="15" valign=middle><input type="date" name="fecha_bajaos" id="fecha_bajaos"></td>
+			</tr>
+			<tr ALIGN="center">
+			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			</tr>
+		<?//b ;}?>
+		<? //b if ($row['TMUT'] == "NO"){?>
+		<tr align="center">
+					<td height="15" valign=middle class="txt2">Fecha de BAJA en Mutual:</td>
+					<td height="15" valign=middle>
+						<?//b $fbmutual1 = $row ['TFECBAJM'];?>
+						<input type="hidden" name="buff_fbmutual" readonly="readonly" value="<?//b print $fbaja1; ?>" />
+						<b><?//b if($row['TFECBAJM']!="0000-00-00"){echo date('d-m-Y',strtotime($fbmutual1));}?></b>
+					</td>
+		</tr>
+		<tr align="center">
+			<td height="15" valign=middle class="txt">Modificar Fecha:</td>
+			<td height="15" valign=middle><input type="date" name="fecha_bmutual" id="fecha_bsindi"></td>
+		</tr>
+		<tr ALIGN="center">
+		<td height="15" valign=middle colspan="2">···················································································· </td></tr>
+		<?//b ;}?>
+		-->
+		

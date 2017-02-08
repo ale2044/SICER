@@ -1,0 +1,50 @@
+
+/* EN ESTE CASO MUESTRA UNA LISTA PARA ELEGIR SIN ENVIAR NINGÚN TIPO DE PARAMETRO */
+/*en el encabezado*/
+include ("fcionfilial.php");
+
+
+/*en el cuerpo*/
+<tr align="center">
+                             <td height="15" valign=middle class="txt">Sede del Afiliado: </td>
+                             <td height="15" valign=middle><? filiales(); ?></td>				
+
+</tr>
+
+
+/*Ejemplo de funcion en PHP*/
+<?
+
+function filiales()
+{
+?>
+<select name="lugar" id="lugar">
+								<option value="null">Selecciona lugar</option>
+            							<option value="01">Chajari</option>        
+                						<option value="02">La Paz</option>        
+                						<option value="03">Federal</option>        
+                						<option value="04">Concordia</option>        
+</select>
+
+<?
+}
+?>
+
+/* EN ESTE OTRO CASO MUESTRA UN VALOR DEPENDIENTO DE UNA VARIABLE ENVIADA */
+
+DESDE EL MAIN HTML SE DEBE ESCRIBIR: <? 
+					$numero = $row['LUGARAFIL'];
+					filiales_mostrar($numero);
+					?>
+
+<?
+function filiales_mostrar($numero)
+{    
+switch ($numero){
+                            case '01': echo "Chajar&iacute";
+                                break;
+                            case '02': echo "La Paz";
+                                break;
+                }
+}
+?>

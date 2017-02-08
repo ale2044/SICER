@@ -1,0 +1,14 @@
+::strlen
+strlen — Obtiene la longitud de un string
+
+<?php
+$str = 'abcdef';
+echo strlen($str); // 6
+
+$str = ' ab cd ';
+echo strlen($str); // 7
+?>
+
+::Mostrar texto con UTF-8
+print utf8_decode(//para mostrar las ñ y todo eso en html 
+utf8_encode( //para enviar bbien codificaco

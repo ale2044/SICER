@@ -1,0 +1,7 @@
+M 20-33192368-1	28	Diaz Gustavo Adolfo concordia 20-20189654-5 maria 22-78966987-2 marcos
+M 20-32192361-6	30	Añes Hector Fabian		Tartagal
+F
+27-32192362-9	30	Navarreta Carolina Paola		Tucumán
+M
+20-32192363-2	30	Leal Rafael Francisco		Tartagal, 15/02/1986
+

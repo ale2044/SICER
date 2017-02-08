@@ -1,0 +1,426 @@
+PASAR DE ACCES A MYSQL
+
+1- http://www.desarrolloweb.com/faq/importar-exportar-datos-access-mysql.html
+2- http://www.desarrolloweb.com/articulos/897.php
+
+Vamos a utilizar las tablas EMPRESA, FAMIBA y TITUBA, ESTCONTA
+1- Copio la base de datos del server.
+
+2- Al abrir la bd el usuario en "juan" y la contraseña vacia. Luego pide contraseña que a la contraseña en "morseto".
+
+3- En phpmyadmin crear una tabla que se llame "exportacion", preferiblemente que este vacía. en utf32_general_ci.
+
+4- Previamente configurado Mysql Connector/ODBC (panel de control/herramientas administrativas/configurar orígenes de datos (ODBC)) cuando lo abrimos en "DNS usuario" tiene que tener los siguientes archivos TCP/IP 127.0.0.1 port 3306 user root Pass: admin. En "Database" seleccionamos "exportacion". Apretamos Test para saber si todo salio bien y listo.
+
+5- Volvemos a la BD de access y en las tablas FAMIBA, EMPRESA y TIUTBA hacer lo siguiente: Clic derecho Exportar -> "Guardar como tipo" -> "ODBC" -> ".." -> Origen de datos de equipo -> "MySql" y aceptar.
+
+6- Las tablas ya estarán pasadas a mysql, ir a phpMyAdmin y ahí en la tabla "exportacion" vamos a la pestaña "Exportar", exportamos y nos hará un archivo exportacion.sql.
+
+7- Abrimos ese archivo y empezamos a modificar según corresponda cada tabla.
+
+
+----solo para copiar de acces a acess algunas tb---
+crear un archivo nuevo de acces "tabla_chica", abrir esa tabla, "archivo" ->  "obtener bd externa" -> "importar".
+------
+
+.::E M P R E S A::.
+Para actualizar la base de datos de access a mysql
+cambiar los nombres de:
+Zona - ZONA
+Szona - SZONA
+Nombre - NOMBRE
+Domicilio - DOMICILIO
+Codbaja - CODBAJA
+Clave - CLAVE
+Localidad - LOCALIDAD
+Baja - BAJA
+Fingreso - FINGRESO
+Codpostal - CODPOST
+Fbaja - FBAJA
+Suss - SUSS
+User - USR
+Fechamodif - FECHMODIF
+Cantpers - CANTPERS
+Canempos - CANEMPOS
+Canempsi - CANEMPSI
+Tipact - TIPACT
+Subact - SUBACT
+Ovservaciones - OBSERV
+Fantasi - FANTASI
+Finiact - FINIACT
+E_mail - E_MAIL
+Estconta - ESTCONTA
+Usuario - USUARIO
+Ultpagos - ULTPEROS
+Ultpersi - ULTPERSI
+UltPagMutual - ULTPERMUT 
+
+---------------------------
+CREATE TABLE `empresas` (
+  `ZONA` varchar(5) DEFAULT NULL,
+  `EMPRESA` int(11) DEFAULT NULL,
+  `Op` varchar(1) DEFAULT NULL,
+  `SZONA` smallint(6) DEFAULT NULL,
+  `TipoEmpresa` varchar(10) DEFAULT NULL,
+  `M` varchar(2) DEFAULT NULL,
+  `NOMBRE` varchar(60) DEFAULT NULL,
+  `DOMICILIO` varchar(100) DEFAULT NULL,
+  `CODBAJA` smallint(6) DEFAULT NULL,
+  `CLAVE` int(11) DEFAULT NULL,
+  `LOCALIDAD` varchar(30) DEFAULT NULL,
+  `BAJA` varchar(2) DEFAULT NULL,
+  `Telefono1` varchar(20) DEFAULT NULL,
+  `Telefono2` varchar(20) DEFAULT NULL,
+  `Ultpago` int(11) DEFAULT NULL,
+  `FINGRESO` datetime DEFAULT NULL,
+  `CODPOST` smallint(6) DEFAULT NULL,
+  `FBAJA` datetime DEFAULT NULL,
+  `SUSS` double DEFAULT NULL,
+  `Susstr` varchar(50) DEFAULT NULL,
+  `USR` varchar(20) DEFAULT NULL,
+  `FECHMODIF` datetime DEFAULT NULL,
+  `ClaveUnio` int(11) DEFAULT NULL,
+  `CANTPERS` smallint(6) DEFAULT NULL,
+  `Canempmu` varchar(50) DEFAULT NULL,
+  `CANEMPOS` smallint(6) DEFAULT NULL,
+  `CANEMPSI` int(11) DEFAULT NULL,
+  `TIPACT` varchar(20) DEFAULT NULL,
+  `SUBACT` varchar(20) DEFAULT NULL,
+  `OBSERV` varchar(255) DEFAULT NULL,
+  `MotivoModifica` varchar(50) DEFAULT NULL,
+  `Fcontrol` varchar(20) DEFAULT NULL,
+  `FANTASI` varchar(50) DEFAULT NULL,
+  `FINIACT` varchar(50) DEFAULT NULL,
+  `E_MAIL` varchar(50) DEFAULT NULL,
+  `F_recep` varchar(20) DEFAULT NULL,
+  `ESTCONTA` int(11) DEFAULT NULL,
+  `L_aponimi` varchar(20) DEFAULT NULL,
+  `USUARIO` varchar(20) DEFAULT NULL,
+  `ULTPEROS` double DEFAULT NULL,
+  `UltPagoCash` varchar(7) DEFAULT NULL,
+  `%Pago` double DEFAULT NULL,
+  `ULTPERSI` smallint(6) DEFAULT NULL,
+  `Ultpagsi` double DEFAULT NULL,
+  `Newfield` varchar(20) DEFAULT NULL,
+  `MSERVIDOR` varchar(2) DEFAULT NULL,
+  `ULTPERMUT` varchar(7) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+---------------------------
+
+.::F A M I B A::. famiba
+cambiar por:
+CuilTit - CUILTITU
+APELNOMB - APELFAMI
+FechaIng - FechaIngOS
+FFBAJ - FechaBajaSI
+NivelEstudio - NIVELEST
+FMARC - BAJASI
+FFMOD - CARGADO
+FFVENPMI - F_PMIVTO
+Nacion - NACIONALIDAD
+CuilFam - CUILFAMI
+
+---- NUEVOS PARA AGREGAR ----
+NOMFAMI (30)
+FechaBajaOS 
+FechaBajaMU
+BAJAOS 
+BAJAMU
+
+FechaIngSI
+FechaIngMU
+F_ESTADOINI
+F_ESTADOVTO
+DESCEST
+F_DISCINI
+
+DISC
+F_DISCVTO
+DESCDISC
+DOCPEND
+OTRODOMI
+PCIFAMI
+DPTOFAMI
+LOCALFAMI
+DOMIFAMI
+
+ALTER TABLE  `famiba` ADD  `NOMFAMI` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `FechaBajaOS` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `FechaBajaMU` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `BAJAOS` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `BAJAMU` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `FechaIngSI` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `FechaIngMU` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `F_ESTADOINI` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `F_ESTADOVTO` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `DESCEST` VARCHAR( 50 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `F_DISCINI` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `DISC` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `F_DISCVTO` DATE NOT NULL;
+ALTER TABLE  `famiba` ADD  `DESCDISC` VARCHAR( 50 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `DOCPEND` VARCHAR( 50 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `OTRODOMI` VARCHAR( 50 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `PCIFAMI` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `DPTOFAMI` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `LOCALFAMI` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `DOMIFAMI` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `famiba` ADD  `PMI` VARCHAR( 2 ) NOT NULL
+
+
+-------------------
+CREATE TABLE `famiba` (
+  `FLETF` varchar(1) DEFAULT NULL,
+  `FDELE` varchar(2) DEFAULT NULL,
+  `FEMPR` varchar(5) DEFAULT NULL,
+  `FZONA` varchar(2) DEFAULT NULL,
+  `FNAFI` varchar(7) DEFAULT NULL,
+  `ClaveEmpresa` double DEFAULT NULL,
+  `CUILTITU` double DEFAULT NULL,
+  `CUITEmpresa` double DEFAULT NULL,
+  `UnificaMutual` double DEFAULT NULL,
+  `FORDE` varchar(2) DEFAULT NULL,
+  `APELFAMI` varchar(35) DEFAULT NULL,
+  `FTDOC` varchar(4) DEFAULT NULL,
+  `FSEXO` varchar(1) DEFAULT NULL,
+  `FechaIngOS` datetime DEFAULT NULL,
+  `FechaBajaSI` datetime DEFAULT NULL,
+  `FPARE` varchar(2) DEFAULT NULL,
+  `FVENC` datetime DEFAULT NULL,
+  `NIVELEST` varchar(50) DEFAULT NULL,
+  `AñoLectivo` smallint(6) DEFAULT NULL,
+  `VenFamCargo` datetime DEFAULT NULL,
+  `VenCertDesemp` datetime DEFAULT NULL,
+  `FCBAJ` varchar(2) DEFAULT NULL,
+  `BAJASI` varchar(2) DEFAULT NULL,
+  `FZAFI` double DEFAULT NULL,
+  `FFNAC` datetime DEFAULT NULL,
+  `FNDOC` double DEFAULT NULL,
+  `FMCRE` double DEFAULT NULL,
+  `FMCON` varchar(1) DEFAULT NULL,
+  `FMPRA` double DEFAULT NULL,
+  `CARGADO` datetime DEFAULT NULL,
+  `RETAFI` varchar(1) DEFAULT NULL,
+  `RETDEL` varchar(2) DEFAULT NULL,
+  `SECDEL` varchar(15) DEFAULT NULL,
+  `FTDIS` varchar(2) DEFAULT NULL,
+  `FTPAT` varchar(2) DEFAULT NULL,
+  `FFVENPAT` datetime DEFAULT NULL,
+  `F_PMIVTO` datetime DEFAULT NULL,
+  `FFENTCRE` datetime DEFAULT NULL,
+  `FAPNO` varchar(35) DEFAULT NULL,
+  `USUARIO` varchar(15) DEFAULT NULL,
+  `HaPaDjObSo` varchar(15) DEFAULT NULL,
+  `MotivoHab` varchar(15) DEFAULT NULL,
+  `InhRefVenObSoc` varchar(15) DEFAULT NULL,
+  `UltPagMutual` varchar(15) DEFAULT NULL,
+  `IPS` varchar(3) DEFAULT NULL,
+  `MotivoModifica` varchar(250) DEFAULT NULL,
+  `FMUTUAL` varchar(3) DEFAULT NULL,
+  `EstCiv` varchar(2) DEFAULT NULL,
+  `NACIONALIDAD` varchar(15) DEFAULT NULL,
+  `CUILFAMI` varchar(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-------------------
+
+
+.:: T I T U L A R E S ::. titulares
+Id - id
+TCUIT - CUITEMPRESA
+CategoriaTexto - TIPOACT
+DesempDesde - DESEMDESDE
+DesempHasta - DESEMHASTA
+TCBAJ - MOTBAJA
+TipoObraSocial - ORIGENOS
+TFMOD - FECHAMODIF
+ObSoc - TOSOC
+FeBajaObSoc - TFECBAJAOS
+TMUTUAL - TMUT
+FechAltMutal - TFINMUTUAL
+MotivoModifica - MOTIVOMODIFICA
+
+-- 
+-- Estructura de tabla para la tabla `tituba`
+-- 
+
+CREATE TABLE `tituba` (
+  `id` int(11) DEFAULT NULL,
+  `TTIPA` varchar(2) DEFAULT NULL,
+  `TLETT` varchar(11) DEFAULT NULL,
+  `TZONA` varchar(4) DEFAULT NULL,
+  `TEMPR` int(11) DEFAULT NULL,
+  `TDELE` varchar(4) DEFAULT NULL,
+  `ClaveEmpresa` double DEFAULT NULL,
+  `CUIL` double DEFAULT NULL,
+  `CUILstr` varchar(24) DEFAULT NULL,
+  `CUITEMPRESA` double DEFAULT NULL,
+  `Unifica` double DEFAULT NULL,
+  `CONTR` varchar(2) DEFAULT NULL,
+  `TNAFI` varchar(12) DEFAULT NULL,
+  `TORDE` varchar(4) DEFAULT NULL,
+  `TAPEL` varchar(50) DEFAULT NULL,
+  `TNOMB` varchar(50) DEFAULT NULL,
+  `TTDOC` varchar(10) DEFAULT NULL,
+  `TDOMI` varchar(60) DEFAULT NULL,
+  `TLOCA` varchar(30) DEFAULT NULL,
+  `TTELE` double DEFAULT NULL,
+  `TCLAB` varchar(4) DEFAULT NULL,
+  `SueldoBasico` double DEFAULT NULL,
+  `TIPOACT` varchar(100) DEFAULT NULL,
+  `TSEXO` varchar(2) DEFAULT NULL,
+  `FILLER` varchar(2) DEFAULT NULL,
+  `INIACT` datetime DEFAULT NULL,
+  `TFINS` datetime DEFAULT NULL,
+  `DESEMDESDE` datetime DEFAULT NULL,
+  `DESEMHASTA` datetime DEFAULT NULL,
+  `TFBAJ` datetime DEFAULT NULL,
+  `MOTBAJA` varchar(4) DEFAULT NULL,
+  `TMARC` varchar(2) DEFAULT NULL,
+  `TZAFI` double DEFAULT NULL,
+  `TSZON` double DEFAULT NULL,
+  `TFNAC` date DEFAULT NULL,
+  `TNDOC` double DEFAULT NULL,
+  `TCPOS` double DEFAULT NULL,
+  `ORIGENOS` varchar(30) DEFAULT NULL,
+  `FECHAMODIF` datetime DEFAULT NULL,
+  `TNACI` varchar(15) DEFAULT NULL,
+  `TESCI` varchar(7) DEFAULT NULL,
+  `TNUDE` varchar(2) DEFAULT NULL,
+  `TCODE` varchar(6) DEFAULT NULL,
+  `TVOTO` double DEFAULT NULL,
+  `TOSOC` varchar(4) DEFAULT NULL,
+  `FeAltaObSoc` datetime DEFAULT NULL,
+  `TFECBAJAOS` datetime DEFAULT NULL,
+  `SegSep` smallint(6) DEFAULT NULL,
+  `FeAltSegSep` datetime DEFAULT NULL,
+  `FeBajSegSep` datetime DEFAULT NULL,
+  `TMUT` varchar(4) DEFAULT NULL,
+  `TFINMUTUAL` datetime DEFAULT NULL,
+  `TFECBAJM` datetime DEFAULT NULL,
+  `NMUTUAL` double DEFAULT NULL,
+  `L_aponimi` bit(1) DEFAULT NULL,
+  `CtaBanco` varchar(100) DEFAULT NULL,
+  `RETDEL` varchar(4) DEFAULT NULL,
+  `RETAFI` varchar(2) DEFAULT NULL,
+  `SECDEL` varchar(30) DEFAULT NULL,
+  `CUILSP` double DEFAULT NULL,
+  `CUITstr` varchar(24) DEFAULT NULL,
+  `TPERI` varchar(12) DEFAULT NULL,
+  `ZonaAp` varchar(6) DEFAULT NULL,
+  `TFCON` datetime DEFAULT NULL,
+  `FECENTCR` datetime DEFAULT NULL,
+  `TFPMI` datetime DEFAULT NULL,
+  `FechAltSind` datetime DEFAULT NULL,
+  `TNSIN` double DEFAULT NULL,
+  `TFECBAJS` datetime DEFAULT NULL,
+  `TFAMI` double DEFAULT NULL,
+  `CFAMIL` double DEFAULT NULL,
+  `TFAMCAR` double DEFAULT NULL,
+  `NROLEG` double DEFAULT NULL,
+  `NroCajaArch` varchar(40) DEFAULT NULL,
+  `USUARIO` varchar(30) DEFAULT NULL,
+  `MSERVIDOR` varchar(4) DEFAULT NULL,
+  `MMAACD` varchar(12) DEFAULT NULL,
+  `HaPaDjObSo` varchar(12) DEFAULT NULL,
+  `MotivoHab` varchar(12) DEFAULT NULL,
+  `InhRefVenObSoc` datetime DEFAULT NULL,
+  `UltPagMutual` varchar(14) DEFAULT NULL,
+  `Actividad` varchar(20) DEFAULT NULL,
+  `MOTIVOMODIFICA` varchar(250) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- 
+-- Volcar la base de datos para la tabla `tituba`
+-- 
+
+update `afiliaciones`.`titulares` SET `TTDOC`= replace(`TTDOC`, '5', 'PASAPORTE');
+update `afiliaciones`.`titulares` SET `TTDOC`= replace(`TTDOC`, '4', 'DNI');
+update `afiliaciones`.`titulares` SET `TTDOC`= replace(`TTDOC`, '3', 'C.I.');
+update `afiliaciones`.`titulares` SET `TTDOC`= replace(`TTDOC`, '2', 'L.C.');
+update `afiliaciones`.`titulares` SET `TTDOC`= replace(`TTDOC`, '1', 'L.E.');
+
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '01', 'SOLTERO');
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '02', 'CASADO');
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '03', 'DIVORCIADO');
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '04', 'VIUDO');
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '05', 'CONCUBINO');
+update `afiliaciones`.`titulares` SET `TESCI`= replace(`TESCI`, '06', 'SEPARADO');
+
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '1', 'ARGENTINO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '2', 'URUGUAYO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '3', 'PARAGUAYO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '4', 'BRASILERO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '5', 'ESTADOUNIDENSE');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '6', 'CHILENO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '7', 'ESPAÑOL');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '8', 'ITALIANO');
+update `afiliaciones`.`titulares` SET `TNACI`= replace(`TNACI`, '9', 'BOLIVIANO');
+
+
+update `afiliaciones`.`titulares` SET `TMUT`= replace(`TMUT`, 'FJ', 'SI');
+
+---tengo problemas cuando reempplazo los nombre NO APLICAR---
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'A', 'ACTIVO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'B', 'PENSIONADA');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'C', 'CONTRATADO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'D', 'ADHERENTE');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'I', 'JUBILADO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'J', 'MONOTRIBUTO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'Z', 'CICLICO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'F', 'MONOTRI E S');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'M', 'NO AFILIADO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'N', 'SERV. DOM');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'O', 'P.M.O');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'P', 'SIN EMPLEO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'S', 'SIN EMPLEO');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'U', 'UNIFI-APOR');
+update `afiliaciones`.`titulares` SET `TLETT`= replace(`TLETT`, 'E', 'APORT S/DJ');
+------------------------------------------------------------
+
+cambiar la tabla tituba por titulares
+
+-hacer el id intercambeble pero primero hay que ponerlo como indice.
+
+AGREGAR CAMPOS
+DPTO
+PCIA
+USRFILIAL
+TTELE2
+MAIL
+TFING // es el ingreso a la empresa
+OBSHABER
+TDISC
+TPATO
+TSINDI
+OBSERV
+FFVENPAT
+LUGARFIL (2) //lugar donde consulta el afiliado
+
+ALTER TABLE  `titulares` ADD  `DPTO` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `PCIA` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `USRFILIAL` VARCHAR( 15 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `TTELE2` VARCHAR( 15 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `MAIL` VARCHAR( 35 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `TFING` DATE NOT NULL;
+ALTER TABLE  `titulares` ADD  `OBSHABER` VARCHAR( 250 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `TDISC` VARCHAR( 30 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `TPATO` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `TSINDI` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `OBSERV` VARCHAR( 250 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `FFVENPAT` DATE NOT NULL;
+ALTER TABLE  `titulares` ADD  `LUGARAFIL` VARCHAR( 2 ) NOT NULL;
+ALTER TABLE  `titulares` ADD  `RECIBO` VARCHAR( 2 ) NOT NULL;
+
+PARA COPIAR LO SELECCIONADO DE UNA BASE A OTRA VAMOS A LA OPCION "EXPORTAR"
+
+.:: H I S T O R I A L ::.
+historial_titu
+historial_famiba
+historial_empresa
+
+Luego de copiar las mismas tablas ya editadas borrar redundancia de la tabla general de titulares.
+delete FROM `titulares` WHERE `TNAFI` like '9%'
+delete FROM `titulares` WHERE `CUIL`=0
+
+
+.:: E S T C O N T A ::.
+AGREGAR TABLA OBSER
