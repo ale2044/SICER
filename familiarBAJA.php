@@ -7,8 +7,6 @@ if(!isset($_SESSION["user"])) {
 }
 else{
 
-include ("fciondiamesanio.php");
-
 $user = $_SESSION["user"];
 $dni_flia = $_POST["dni_fliar"];
 
@@ -16,9 +14,9 @@ $sqlBusca="select FNDOC from famiba where FNDOC='$dni_flia'";
 $resultBusca=mysql_query($sqlBusca, $link);
 
 if (mysql_num_rows($resultBusca)==1){
-
 	$pcias=mysql_query("select * from famiba where FNDOC='$dni_flia'");	
 	$row=mysql_fetch_assoc($pcias);
+	
 	$a=$row['BAJASI'];
 	if ( $a == '*' ){
 	$alerta='famiBaja';
@@ -144,7 +142,12 @@ if (mysql_num_rows($resultBusca)==1){
 <input type="hidden" name="hnomfami" value="<? print $row['NOMFAMI']; ?>"/>
 
 	<div id="CajaNotificacion"><div class="txt">CUIL y FAMILIAR PARA DAR DE BAJA:<strong> 
-	<? print utf8_decode($dni_flia); print utf8_decode(" || ".$row["APELFAMI"]." ".$row["NOMFAMI"]); ?></strong></div>
+	<? print utf8_decode($dni_flia); print utf8_decode(" || ".$row["APELFAMI"]." ".$row["NOMFAMI"]); 
+	   print "<br>AMUTCAER: ";  if(($row['TMUT']) == "*"){ print "NO"." || "; } else { print "SI || "; };
+   	   print " Obra Social: "; if(($row['TOSOC']) == "*"){ print "NO"." || "; } else { print "SI || "; };
+       print " Sindicato: "; if(($row['TSINDI']) == "*"){ print "NO"; } else { print "SI"; }
+	?>
+	</strong></div>	
 	</div>
 	
 		<div id="CajaFami">
@@ -241,6 +244,7 @@ if (mysql_num_rows($resultBusca)==1){
 {
 	$alerta=416; //FAMILIAR NO ENCONTRADO;
 	header("Location: menu.php?alerta=$alerta");	
+}
 }
 
 include("includes/footer.php");

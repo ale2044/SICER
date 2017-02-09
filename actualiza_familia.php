@@ -170,7 +170,7 @@ if (mysql_num_rows ( $resultBusca ) == 1) {
 		}
 	}//fin del else
 	
-	echo "tipo= ".$mtipoParen." descripcion =".$descripEst."fecha em".$f_est_emi;
+	//echo "tipo= ".$mtipoParen." descripcion =".$descripEst."fecha em".$f_est_emi;
 	
 	$nacionalidad = $_POST['nacio'];
 	$otro_domi = $_POST['otro_domi'];
@@ -183,8 +183,9 @@ if (mysql_num_rows ( $resultBusca ) == 1) {
 	$feCarga = date("c");//Fecha de ingreso real al sistema sindi, fecha de carga.
 	
 	
-	$fechaedad = time() - strtotime($fnac);
-	$edad = floor($fechaedad / 31556926);
+	//$fechaedad = time() - strtotime($fnac);
+	//$edad = floor($fechaedad / 31556926);
+	//EDAD = '$edad', antes se guardaba la edad ahora se calcula
 	
 	if ( $_POST['alta'] == 'si' ){
 		$alta = '-';
@@ -201,7 +202,6 @@ if (mysql_num_rows ( $resultBusca ) == 1) {
 		FTDOC = '$tipoDocu',
 		FNDOC = '$nroDocu',
 		FFNAC = '$fnac',
-		EDAD = '$edad',
 		FPARE = '$mtipoParen',
 		F_ESTADOINI	= '$f_est_emi',
 		F_ESTADOVTO	= '$f_est_vto',
@@ -220,11 +220,11 @@ if (mysql_num_rows ( $resultBusca ) == 1) {
 		LOCALFAMI = '$localidad_fami',
 		DOMIFAMI = '$domi_fami',
 		CARGADO	= '$feCarga',
-		FMARC = '$alta'
+		FMARC = '$alta' //////////////// ACA ESTA EL ERROR NO VA FMARC SI NO OTRO TIPO DE BAJA COMO BAJASIN
 		
 		WERE FNDOC = '" . $dni_buffer . "'";
 		
-	$agrega = mysql_query ( $sql, $ );
+	$agrega = mysql_query ( $sql, $link );
 	
 	$alerta = 408; // El empleado fue actualizado correctamente
 	if (! mysql_error ()) {

@@ -1,0 +1,4 @@
+
+
+$fechaedad = time() - strtotime($fnac);
+$edad = floor($fechaedad / 31556926);

@@ -130,7 +130,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			    <td height="15" valign=middle class="txt">Tipo de documento:</td><td height="15" valign=middle class="txt">
 				<input type="text" name="tipodoc" size="4" maxlength="4" style="text-transform:uppercase;" 
 					class=":required" value="<? print $row['FTDOC']; ?>"/>
-				Nro:<input type="text" name="dni" size="22.7" maxlength="10" class=":required" value="<? print $row['FNDOC']; ?>" /></td>
+				Nro: <input type="text" name="dni" size="22.7" maxlength="10" class=":required" value="<? print $row['FNDOC']; ?>" /></td>
 			</tr>
 			
 			<tr ALIGN="center">
@@ -157,7 +157,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			
 			<tr align="center">
 					<td height="15" valign=middle class="txt"><i>Fecha de nacimiento:</i></td>
-					<td height="15" valign=middle>
+					<td height="15" valign=middle class="txt">
 						<?
 							$naci1 = $row ['FFNAC'];
 						?>
@@ -179,7 +179,16 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			
 			<tr ALIGN="center">
 			    <td height="15" valign=middle class="txt">Sexo:</td><td height="15" valign=middle class="txt">
-				<input type="text" name="" size="4" readonly='readonly' style="text-transform:uppercase;" value="<? print $row['FSEXO']; ?>"/>
+				<?
+					switch ($row['FSEXO']) {
+						case 'M':
+							print "MASCULINO";
+							break;
+						case 'F':
+							print "FEMENINO";
+							break;
+					}
+				?>
 				</td>
 			</tr>
 			
@@ -214,13 +223,11 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 				
 			<tr align="center">
 					<td height="15" valign=middle class="txt2">Fecha venc. P.M.I.:</td>
-					<td height="15" valign=middle>
+					<td height="15" valign=middle class="txt">
 						<?
 							$fechapmi = $row ['F_PMIVTO'];
+							if($row['F_PMIVTO']!="0000-00-00"){	echo date('d-m-Y',strtotime($fechapmi)); } 
 						?>
-						<input type="text" name="" size="11" maxlength="10" value="<? 
-						if($row['F_PMIVTO']!="0000-00-00"){
-						echo date('d-m-Y',strtotime($fechapmi)); } ?>" />
 					</td>
 			</tr>
 			
@@ -249,15 +256,14 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			<!-- 			solo muestra el tipo de pariente -->
 			<tr align="center">
 				<td height="15" valign=middle class="txt2">Tipo de Parentesco</td>
-				<td height="15" valign=middle>
+				<td height="15" valign=middle class="txt">
 					<?
 						$act = $row ['FPARE'];
 						$act = mysql_query ( "SELECT cod_paren, desc_paren from parentesco WHERE cod_paren='$act'" );
 						$row1 = mysql_fetch_assoc ( $act );
 					?>
 					<input type="hidden" name="buff_paren" readonly="readonly" value="<? print $row['FPARE']; ?>" />
-					<input type="text" name="" readonly="readonly" size="45" maxlength="50" 
-							value="<? print $row['FPARE'].' - '.$row1['desc_paren']; ?>" />
+					<? print $row['FPARE'].' - '.$row1['desc_paren']; ?>
 				</td>
 			</tr>
 			<!-- 			*******************************	 -->
