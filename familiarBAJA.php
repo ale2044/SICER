@@ -10,26 +10,31 @@ else{
 $user = $_SESSION["user"];
 $dni_flia = $_POST["dni_fliar"];
 
-$sqlBusca="select FNDOC from famiba where FNDOC='$dni_flia'";
-$resultBusca=mysql_query($sqlBusca, $link);
+$sqlBusca = "select FNDOC from famiba where FNDOC='$dni_flia'";
+$resultBusca = mysql_query( $sqlBusca, $link );
 
-if (mysql_num_rows($resultBusca)==1){
+if ( mysql_num_rows($resultBusca) == 1 ) {
 	$pcias=mysql_query("select * from famiba where FNDOC='$dni_flia'");	
 	$row=mysql_fetch_assoc($pcias);
 	
-	$a=$row['BAJASI'];
-	if ( $a == '*' ){
-	$alerta='famiBaja';
-	header("Location: menu.php?alerta=$alerta");
-	}// Fin if buscar '*'
+	$a = $row['TSINDI'];
+	$b = $row['TOSOC'];
+	$c = $row['TMUT'];
+
+	if ( ( $a == '*' ) && ( $b == '*' ) && ( $c == '*') ){
+		$alerta='famiBaja';
+		header("Location: menu.php?alerta=$alerta");
+		}
+	} else {
+		$alerta=416; //FAMILIAR NO ENCONTRADO;
+			header("Location: menu.php?alerta=$alerta");	
+		   }
 ?>
 
 
 <?include("includes/header.php");?>
 		
-	<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
-
-	
+<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
 
 <script type="text/javascript">
     function showContent_a() {
@@ -149,31 +154,44 @@ if (mysql_num_rows($resultBusca)==1){
 	?>
 	</strong></div>	
 	</div>
+
+	<div id="CajaNotificacion_2"><div class="txt">TITULAR DEL FAMILIAR:<strong> 
+	<? print "<br>CUIL: ".$row['CUILTITU'];
+
+	/* BUSQUEDA DEL TITULAR DEL FAMILIAR */
+	$cuit_titu = $row['CUILTITU'];
+	$sqlT = " select TAPEL, TNOMB, TMUT, TOSOC, TSINDI from titulares where CUIL='$cuit_titu' ";
+	 $resT = mysql_query( $sqlT, $link );
+		
+		if( mysql_num_rows( $resT ) == 1){
+			$rowTitu = mysql_fetch_assoc ( $resT );
+			echo "<br>".$rowTitu['TAPEL']." ".$rowTitu['TNOMB'];
+
+			 print "<br>AMUTCAER: ";  print $rowTitu['TMUT']." || ";
+   	   		 print " Obra Social: "; print $rowTitu['TOSOC']." || ";
+       		 print " Sindicato: "; print $rowTitu['TSINDI'];
+		} else { 
+					$alerta = "tituenfamibaja";
+					header("Location: menu.php?alerta=$alerta");
+				}
+	?>
+	</strong></div>	
+	</div>
 	
 		<div id="CajaFami">
-		
-		
+				
 		<table>
 		
 		<tr ALIGN="center">
 			<td colspan= "2" height="20" valign=middle bgcolor="#EFEEDA"> Datos del Familiar a dar de baja </td>
 		</tr>
 		
-		<tr ALIGN="left">
-			<td height="15" valign=middle class="txt">CUIT del Titular:</td>
-   			<td height="15" valign=middle ><input type="text" name="cuitE" size="30" maxlength="11" readonly="readonly"
-   				style="text-transform: uppercase;" value="<?php print $row['CUILTITU'];?>" /></td>			    
-		</tr>
-		
-		<tr ALIGN="left">
-			<td height="15" valign=middle class="txt">DNI:</td>
-   			<td height="15" valign=middle ><input type="text" name="dniE" size="30" maxlength="11" readonly="readonly"
-   			style="text-transform: uppercase;" value="<?php print $row['FNDOC'];?>" /></td>			    
-		</tr>
+		<input type="hidden" name="cuitE" style="text-transform: uppercase;" value="<?php print $row['CUILTITU'];?>" />
+		<input type="hidden" name="dniE" style="text-transform: uppercase;" value="<?php print $row['FNDOC'];?>" />
 		
 		<tr ALIGN="left">
 		    <td height="15" valign=middle class="txt"></td>
-			<td height="15" valign=middle><input type="checkbox" name="todo" id="checktodo" value="todo" onchange="javascript:showContent_d()" /> <b><i>Dar de baja a todo?</i></b> <br/>
+			<td height="15" valign=middle><input type="checkbox" name="todo" id="checktodo" value="todo" onchange="javascript:showContent_d()" /> <b><i>Dar de baja a todo?</i></b><br/>
 			<div id="content_ftodo" style="display: none;">
    						<p>Fecha Baja: <input type="date" name="fechatodo"/></p>
  			</div>
@@ -240,11 +258,7 @@ if (mysql_num_rows($resultBusca)==1){
     </body>
 </html>
 <?php 
-}else
-{
-	$alerta=416; //FAMILIAR NO ENCONTRADO;
-	header("Location: menu.php?alerta=$alerta");	
-}
+
 }
 
 include("includes/footer.php");

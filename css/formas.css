@@ -18,7 +18,7 @@ border:1px solid #333;
 color:#fff;
 text-decoration:none;
 /*background-color:#333;*/
-background: #333 url("dropdown.png") no-repeat scroll right center;
+background: #333 url("Imagenes/dropdown.png") no-repeat scroll right center;
 }
 
 #nav a:hover{
@@ -215,6 +215,16 @@ span.req{display:inline;float:none;color:red !important;font-weight:bold;margin:
 		float: left;
 		
 }
+
+#CajaNotificacion_2 {
+		width:90%;
+		margin: 1em; /*border: solid 2px;*/
+		margin-left: 35px;
+		background: #A9D0F5;
+		float: left;
+		
+}
+
 #CajaFami {
 		width:90%;
 		margin-left: 35px;
