@@ -9,7 +9,11 @@ else{
 
 $user = $_SESSION["user"];
 
+echo "POST";
 var_dump($_POST);
+
+echo "GET";
+var_dump($_GET);
 
 
 

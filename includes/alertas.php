@@ -135,9 +135,16 @@ switch ($alerta) {
 							alert("2202: Error al buscar familiar");
 						</script>
 			<?; break;
+	case 'noexiste_famiedi':
+			?>
+						<script type="text/JavaScript1.2">
+							alert("2203: Error al buscar titular");
+						</script>
+			<?; break;
 }
 /*
 2201: Este error es cuando en familiarBAJA.php busca el titular para mostrar sus datos.
 2201: Error al buscar dni del familiar en baja_fami.php.
+2203: Error el titular del familiar en familiaEDICION.php
 */
 ?>

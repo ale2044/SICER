@@ -15,7 +15,7 @@ include ("fcionSubactividadafip.php");
 include ("fcionbajaEmpre.php");
 include ("fcionEstudioContable.php");
 
-if ($_SESSION ["autentificado"] != "SI") { header ( "Location: index.php" ); }
+//if ($_SESSION ["autentificado"] != "SI") { header ( "Location: index.php" ); }
 
 $user = $_SESSION ["user"];
 $cuit_emp = $_GET ["empresa"];
@@ -35,6 +35,9 @@ if (mysql_num_rows($resultBusca)==1){
 ?>
 
 <?include("includes/header.php");?>
+
+<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="js/vanadium.js"></script>
 
 <script  type="text/javascript">
 function agregarEstudio()
@@ -755,9 +758,6 @@ function getVarsUrl(){
 
 	</div>
 	<!-- contenedor -->
-
-<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
-<script type="text/javascript" src="vanadium.js"></script>
 
 <?php include("includes/footer.php");
 }

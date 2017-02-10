@@ -1,61 +1,51 @@
-<?
+<?php
 session_start();
 require_once("includes/connection.php");
 
-if (!isset($_SESSION["user"])) {
-	 header("location:index.php");
-}
+if (!isset($_SESSION["user"])) { header("location:index.php"); }
 else {
 
 $user = $_SESSION["user"];
 $dni_flia = $_POST["dni_fami"];
 $dni_buffer = $_POST["dni_fami"];
 
-	$sqlBusca="select FNDOC from famiba where FNDOC='$dni_flia'";
-	$resultBusca=mysql_query($sqlBusca, $link);
+	$sqlBusca = "select FNDOC from famiba where FNDOC='$dni_flia'";
+	$resultBusca = mysql_query($sqlBusca, $link);
 
-if(mysql_num_rows($resultBusca)==1){
-	$pcias=mysql_query("SELECT * from famiba WHERE FNDOC='$dni_flia'");
-	$row=mysql_fetch_assoc($pcias);
-	
-include("includes/header.php");?>
+		if( mysql_num_rows( $resultBusca ) == 1 ){
+			$pcias = mysql_query( "SELECT * from famiba WHERE FNDOC='$dni_flia' ");
+			$row = mysql_fetch_assoc( $pcias );
+			} else { 
+				$alerta=416; //El familiar NO existe;
+				header("Location: menu.php?alerta=$alerta");	
+			}
+?>
 
-<script type="text/javascript">
+<?include("includes/header.php");?>
 
-function activar(form) {
-
-if (form.tparen_modif.value=="04" || form.tparen_modif.value=="06"){ 
+	<script type="text/javascript">
+		function activar(form) {
+			if (form.tparen_modif.value=="04" || form.tparen_modif.value=="06"){ 
 					document.getElementById("Caja_estudio").style.display = 'block';
-							      } else { document.getElementById("Caja_estudio").style.display = 'none'; }
-
-if (form.tparen_modif.value=="08" || form.tparen_modif.value=="10"){
+					} else { document.getElementById("Caja_estudio").style.display = 'none'; }
+			if (form.tparen_modif.value=="08" || form.tparen_modif.value=="10"){
 					document.getElementById("Caja_discapacidad").style.display = 'block'; 
-							     } else { document.getElementById("Caja_discapacidad").style.display = 'none'; }
+					} else { document.getElementById("Caja_discapacidad").style.display = 'none'; }
+			}
+	</script>
 
+	<script type="text/javascript">
+		function pmi_ver(form) {
+			if (form.sex.value == "F"){ document.getElementById("Caja_pmi").style.display = 'block'; } else { document.getElementById("Caja_pmi").style.display = 'none'; }
+		}
+	</script>
 
-}
-
-</script>
-
-<script type="text/javascript">
-
-function pmi_ver(form)
-{
-if (form.sex.value == "F"){ document.getElementById("Caja_pmi").style.display = 'block'; } else { document.getElementById("Caja_pmi").style.display = 'none'; }
-
-}
-
-</script>
-
-<script type="text/javascript">
-
-function pmi_fecha(form)
-{
-if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "visible"; } else {
+	<script type="text/javascript">
+		function pmi_fecha(form) {
+			if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "visible"; } else {
  					      form.fecha_pmi.style.visibility = "hidden"; }
-}
-
-</script>
+		}
+	</script>
 
 <script type="text/javascript" src="js/checkcuitl.js"></script>
 <script type="text/javascript" src="js/cargarDptos.js"></script>
@@ -66,10 +56,23 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 	<div id="cajachicasup"></div>
 		<div id="cajappal" class='centraTabla'>
 			<h1 align="center">
-				Panel de Edición de Datos: FAMILIARES || Usuario: <b><? echo $user; ?></b>
+				Panel de Edici&oacute;n de Datos: FAMILIARES || Usuario: <b><? echo $user; ?></b>
 			</h1>
 
-	 <? if($row['BAJASI']=='*'){?>
+	<?
+
+	$cuit_titu = $row ['CUILTITU'];
+	$sqlBuscaTitu = " select TAPEL, TNOMB, TMUT, TOSOC, TSINDI from titulares where CUIL='$cuit_titu' ";
+	$resultBuscaTitu = mysql_query( $sqlBuscaTitu, $link );
+	if( mysql_num_rows( $resultBuscaTitu ) == 1){
+		$rowT = mysql_fetch_assoc($resultBuscaTitu);
+		}else { 
+				$alerta='noexiste_famiedi';
+				header("Location: menu.php?alerta=$alerta");	
+			  }
+	?>
+
+	<? if($row['BAJASI']=='*'){?>
 	 <span style="letter-spacing:7px; color: #ffff99; background-color:red"><b> ::: El Familiar fue dado de BAJA el <? print $row['FechaBajaSI'];?> ::: </b></span>
 	 <table>
 	 <tr><td>
@@ -88,34 +91,8 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 	<?php if ( $row['SICER'] == 'SI' ){ echo "La &uacuteltima actualizaci&oacuten fue en SICER"; } else { echo "La &uacuteltima actualizaci&oacuten fue en SINDI"; } ?>
 	</i></span></div>
 </div>
-
-<div id="CajaNotificacion_2"><div class="txt">TITULAR DEL FAMILIAR:<strong> 
-	<? print "<br>CUIL: ".$row['CUILTITU'];
-
-	/* BUSQUEDA DEL TITULAR DEL FAMILIAR */
-	$cuit_titu = $row['CUILTITU'];
-	$sqlT = " select TAPEL, TNOMB, TMUT, TOSOC, TSINDI, TNSIN, TFBAJ from titulares where CUIL='$cuit_titu' ";
-	 $resT = mysql_query( $sqlT, $link );
-		
-		if( mysql_num_rows( $resT ) == 1){
-			$rowTitu = mysql_fetch_assoc ( $resT );
-			echo "<br>".$rowTitu['TAPEL']." ".$rowTitu['TNOMB'];
-
-			 print "<br>AMUTCAER: ";  print $rowTitu['TMUT']." || ";
-   	   		 print " Obra Social: "; print $rowTitu['TOSOC']." || ";
-       		 print " Sindicato: "; print $rowTitu['TSINDI'];
-		} else { 
-					$alerta = "tituenfamibaja";
-					header("Location: menu.php?alerta=$alerta");
-				}
-	?>
-	</strong>
-	<br><br><span style="color:#B4045F"><i><?php print "Datos a observar para saber el estado sindical:<br>Fecha de Baja: ".$rowTitu['TFBAJS']." || Nro Sindical: ".$rowTitu['TNSIN']; ?></i></span>
-	</div>	
-</div>
 		
 <form action="actualiza_familia.php" name="formulario" id="formulario" method="POST">
-	
 	<div id="CajaFami" class="centraTabla">
 		<!-- Guarda en Buffer el CUIL del familiar -->
 		<input type="hidden" name="dni_buffer" size="40" maxlength="11" value="<? print $row['FNDOC']; ?>"/>
@@ -131,7 +108,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			</tr>
 			
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2" class="txt"><br> ····················· DATOS PERSONALES	 ····················· </td>
+			    <td height="15" valign=middle colspan="2" class="txt"><br> Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· DATOS PERSONALES	 Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 			</tr>
 			
 			<tr align="center">
@@ -168,7 +145,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			</tr>
 			
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			    <td height="15" valign=middle colspan="2">Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 			</tr>
 			
 			<tr align="center">
@@ -190,7 +167,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			</tr>
 			
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			    <td height="15" valign=middle colspan="2">Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 			</tr>
 			
 			<tr ALIGN="center">
@@ -266,7 +243,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			</tr>
 				
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			    <td height="15" valign=middle colspan="2">Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 			</tr>
 			
 			<!-- 			solo muestra el tipo de pariente -->
@@ -332,7 +309,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 						</tr>
 						
 						<tr align="center">
-							<td height="15" valign=middle class="txt">Descripción Sobre estudio:</td>
+							<td height="15" valign=middle class="txt">DescripciÃ³n Sobre estudio:</td>
 							<td height="15" valign=middle>
 							<textarea rows="6" cols="40" onKeyUp="maximo(this,255);" onKeyDown="maximo(this,255);" name="descrpcion_est" style="text-transform: uppercase;">
 										<? print $row['DESEST']; ?>
@@ -382,7 +359,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 											</tr>
 											
 											<tr align="center">
-												<td height="15" valign=middle class="txt">Descripción sobre Discapacidad:</td>
+												<td height="15" valign=middle class="txt">DescripciÃ³n sobre Discapacidad:</td>
 												<td height="15" valign=middle>
 												<textarea rows="6" cols="40" onKeyUp="maximo(this,255);" onKeyDown="maximo(this,255);" name="descrpcion_disc" style="text-transform: uppercase;">
 															<? print $row['DESCDISC']; ?>
@@ -444,7 +421,7 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 				<!-- 			?> -->
 			
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			    <td height="15" valign=middle colspan="2">Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 			</tr>
 		
 			<tr align="center">
@@ -453,12 +430,12 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 			</tr>
 			
 			<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2" class="txt"><br>····················· RESIDENCIA Y LOCALIZACIÓN DEL FAMILIAR ·····················</td>
+			    <td height="15" valign=middle colspan="2" class="txt"><br>Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· RESIDENCIA Y LOCALIZACIÃ“N DEL FAMILIAR Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·</td>
 				 <td height="15" valign=middle colspan="2" class="txt"><br></td>
 			</tr>
 			
 			<tr align="center">
-				<td height="15" valign=middle class="txt">¿El familiar posee otro domicilio?:</td>
+				<td height="15" valign=middle class="txt">Â¿El familiar posee otro domicilio?:</td>
 				<td height="15" valign=middle><input type="text" name="otro_domi" size="2"	style="text-transform: uppercase;"	value="<? print $row['OTRODOMI']; ?>" /></td>
 			</tr>
 						
@@ -487,59 +464,43 @@ if(document.getElementById('pmi').checked) { form.fecha_pmi.style.visibility = "
 	
 	<table>
 		<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2"><br>···················································································· </td>
+			    <td height="15" valign=middle colspan="2"><br>Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 		</tr>
 		<tr ALIGN="center">
 				<td height="15" valign=middle class="txt2">Modificado por:<? print "  ".$row["USUARIO"]; ?></td>
 		</tr>
 		
 		<tr align="center">
-				<td height="15" valign=middle class="txt2">Última modificación:<? print "  ".$row["CARGADO"]; ?></td>
+				<td height="15" valign=middle class="txt2">Ãšltima modificaciÃ³n:<? print "  ".$row["CARGADO"]; ?></td>
 		</tr>
 		
 		<tr ALIGN="center">
-			    <td height="15" valign=middle colspan="2">···················································································· </td>
+			    <td height="15" valign=middle colspan="2">Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â·Â· </td>
 		</tr>
-		</table>
-		
-</div> <!-- Cajaempre -->
+	</table>
+
+</div>
 
 		<table>
 			<tr align="center">
 				<td height="15" align="center" valign="middle"><input type="submit" class="grabar" name="graba" value="Grabar" size="10" /></td>
 			</tr>
 		</table>
-
 </form>
-
 			<table>
 				<tr>
-
 					<td width="" height="23" align="center" valign="middle">
 						<button onclick="window.location.href='menu.php'" class="inicio">Inicio</button>
 					</td>
-
 					<td width="" height="23" align="center" valign="middle">
 						<button onclick="window.location.href='cerro.php'" class="salir">Salir</button>
 					</td>
 				</tr>
 			</table>
-
 			<div id="cajapie"></div>
-
 </div> <!-- CajaPrincipal-->
-
 </div> <!-- contenedor -->
-
-<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
-<script type="text/javascript" src="vanadium.js"></script>
 <?
-}
-else 
-{
-	$alerta=416; //El familiar NO existe;
-	header("Location: menu.php?alerta=$alerta");	
-}
 }
 include("includes/footer.php");
 ?>
