@@ -126,6 +126,7 @@ FechaBajaOS
 FechaBajaMU
 TOSOC (ANTES BAJAOS) 
 TMUT (ANTES BAJAMU)
+aniolectivo (antes añolectivo)
 
 FechaIngSI
 FechaIngMU
@@ -165,7 +166,7 @@ ALTER TABLE  `famiba` ADD  `DPTOFAMI` VARCHAR( 30 ) NOT NULL;
 ALTER TABLE  `famiba` ADD  `LOCALFAMI` VARCHAR( 30 ) NOT NULL;
 ALTER TABLE  `famiba` ADD  `DOMIFAMI` VARCHAR( 30 ) NOT NULL;
 ALTER TABLE  `famiba` ADD  `PMI` VARCHAR( 2 ) NOT NULL
-
+ALTER TABLE  `famiba` ADD  `SICER` VARCHAR( 2 ) NOT NULL
 
 -------------------
 CREATE TABLE `famiba` (
@@ -187,7 +188,7 @@ CREATE TABLE `famiba` (
   `FPARE` varchar(2) DEFAULT NULL,
   `FVENC` datetime DEFAULT NULL,
   `NIVELEST` varchar(50) DEFAULT NULL,
-  `AñoLectivo` smallint(6) DEFAULT NULL,
+  `AnioLectivo` smallint(6) DEFAULT NULL,
   `VenFamCargo` datetime DEFAULT NULL,
   `VenCertDesemp` datetime DEFAULT NULL,
   `FCBAJ` varchar(2) DEFAULT NULL,

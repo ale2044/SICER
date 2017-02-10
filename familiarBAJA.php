@@ -94,7 +94,7 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 	<!-- baja_fami.php -->
 	<form action="baja_fami.php" name="formulario" id="formulario" method="POST">
 
-	<input type="hidden" name="hfletf" value="<? print $row['FLETF']; ?>"/>
+<input type="hidden" name="hfletf" value="<? print $row['FLETF']; ?>"/>
 <input type="hidden" name="hfdele" value="<? print $row['FDELE']; ?>"/>
 <input type="hidden" name="hfempr" value="<? print $row['FEMPR']; ?>"/>
 <input type="hidden" name="hzona" value="<? print $row['FZONA']; ?>"/>
@@ -112,11 +112,11 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 <input type="hidden" name="hfpare" value="<? print $row['FPARE']; ?>"/>
 <input type="hidden" name="hfvenc" value="<? print $row['FVENC']; ?>"/>
 <input type="hidden" name="hnivelest" value="<? print $row['NIVELEST']; ?>"/>
-<input type="hidden" name="haniolectivo" value="<? print $row['AñoLectivo']; ?>"/>
+<input type="hidden" name="haniolectivo" value="<? print $row['AnioLectivo']; ?>"/>
 <input type="hidden" name="hvenfamcargo" value="<? print $row['VenFamCargo']; ?>"/>
 <input type="hidden" name="hvencertdesemp" value="<? print $row['VenCertDesemp']; ?>"/>
 <input type="hidden" name="hfcbaj" value="<? print $row['FCBAJ']; ?>"/>
-<input type="hidden" name="hbajasi" value="<? print $row['BAJASI']; ?>"/>
+<input type="hidden" name="htsindi" value="<? print $row['TSINDI']; ?>"/>
 <input type="hidden" name="hfzafi" value="<? print $row['FZAFI']; ?>"/>
 <input type="hidden" name="hffnac" value="<? print $row['FFNAC']; ?>"/>
 <input type="hidden" name="hfndoc" value="<? print $row['FNDOC']; ?>"/>
@@ -146,13 +146,36 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 <input type="hidden" name="hcuilfami" value="<? print $row['CUILFAMI']; ?>"/>
 <input type="hidden" name="hnomfami" value="<? print $row['NOMFAMI']; ?>"/>
 
+<input type="hidden" name="hfechabajaos" value="<? print $row['FechaBajaOS']; ?>"/>
+<input type="hidden" name="hfechabajamu" value="<? print $row['FechaBajaMU']; ?>"/>
+<input type="hidden" name="htosoc" value="<? print $row['TOSOC']; ?>"/>
+<input type="hidden" name="htmut" value="<? print $row['TMUT']; ?>"/>
+<input type="hidden" name="hfechaingsi" value="<? print $row['FechaIngSI']; ?>"/>
+<input type="hidden" name="hfechaingmu" value="<? print $row['FechaIngMU']; ?>"/>
+<input type="hidden" name="hf_estadoini" value="<? print $row['F_ESTADOINI']; ?>"/>
+<input type="hidden" name="hf_estadovto" value="<? print $row['F_ESTADOVTO']; ?>"/>
+<input type="hidden" name="hdescest" value="<? print $row['DESCEST']; ?>"/>
+<input type="hidden" name="hf_discini" value="<? print $row['F_DISCINI']; ?>"/>
+<input type="hidden" name="hdisc" value="<? print $row['DISC']; ?>"/>
+<input type="hidden" name="hf_discvto" value="<? print $row['F_DISCVTO']; ?>"/>
+<input type="hidden" name="hdescdisc" value="<? print $row['DESCDISC']; ?>"/>
+<input type="hidden" name="hdocpend" value="<? print $row['DOCPEND']; ?>"/>
+<input type="hidden" name="hotrodomi" value="<? print $row['OTRODOMI']; ?>"/>
+<input type="hidden" name="hpcifami" value="<? print $row['PCIFAMI']; ?>"/>
+<input type="hidden" name="hdtofami" value="<? print $row['DPTOFAMI']; ?>"/>
+<input type="hidden" name="hlocalfami" value="<? print $row['LOCALFAMI']; ?>"/>
+<input type="hidden" name="hdomifami" value="<? print $row['DOMIFAMI']; ?>"/>
+<input type="hidden" name="hpmi" value="<? print $row['PMI']; ?>"/>
+
 	<div id="CajaNotificacion"><div class="txt">CUIL y FAMILIAR PARA DAR DE BAJA:<strong> 
-	<? print utf8_decode($dni_flia); print utf8_decode(" || ".$row["APELFAMI"]." ".$row["NOMFAMI"]); 
-	   print "<br>AMUTCAER: ";  if(($row['TMUT']) == "*"){ print "NO"." || "; } else { print "SI || "; };
-   	   print " Obra Social: "; if(($row['TOSOC']) == "*"){ print "NO"." || "; } else { print "SI || "; };
-       print " Sindicato: "; if(($row['TSINDI']) == "*"){ print "NO"; } else { print "SI"; }
+	<? print utf8_decode($dni_flia); print utf8_decode(" || ".$row["APELFAMI"]." ".$row["NOMFAMI"]."<br>"); 
+	   print "AMUTCAER: ";  if(($row['TMUT']) == "*"){ print "NO"." || "; } else { print $row['TMUT']." || "; };
+   	   print " Obra Social: "; if(($row['TOSOC']) == "*"){ print "NO"." || "; } else { print $row['TOSOC']." || "; };
+       print " Sindicato: "; if(($row['TSINDI']) == "*"){ print "NO"; } else { print $row['TSINDI']; }
 	?>
-	</strong></div>	
+	</strong><br><br><span style="color:#B4045F"><i>Ayuda: Anteriormente al estar dado de baja en el SINDICATO estaba dado de baja en TODO.<br>
+	<?php if ( $row['SICER'] == 'SI' ){ echo "La &uacuteltima actualizaci&oacuten fue en SICER"; } else { echo "La &uacuteltima actualizaci&oacuten fue en SINDI"; } ?>
+	</i></span></div>	
 	</div>
 
 	<div id="CajaNotificacion_2"><div class="txt">TITULAR DEL FAMILIAR:<strong> 
@@ -160,7 +183,7 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 
 	/* BUSQUEDA DEL TITULAR DEL FAMILIAR */
 	$cuit_titu = $row['CUILTITU'];
-	$sqlT = " select TAPEL, TNOMB, TMUT, TOSOC, TSINDI from titulares where CUIL='$cuit_titu' ";
+	$sqlT = " select TAPEL, TNOMB, TMUT, TOSOC, TSINDI, TNSIN, TFBAJ from titulares where CUIL='$cuit_titu' ";
 	 $resT = mysql_query( $sqlT, $link );
 		
 		if( mysql_num_rows( $resT ) == 1){
@@ -175,7 +198,9 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 					header("Location: menu.php?alerta=$alerta");
 				}
 	?>
-	</strong></div>	
+	</strong>
+	<br><br><span style="color:#B4045F"><i><?php print "Datos a observar para saber el estado sindical:<br>Fecha de Baja: ".$rowTitu['TFBAJS']." || Nro Sindical: ".$rowTitu['TNSIN']; ?></i></span>
+	</div>	
 	</div>
 	
 		<div id="CajaFami">
@@ -183,7 +208,7 @@ if ( mysql_num_rows($resultBusca) == 1 ) {
 		<table>
 		
 		<tr ALIGN="center">
-			<td colspan= "2" height="20" valign=middle bgcolor="#EFEEDA"> Datos del Familiar a dar de baja </td>
+			<td colspan= "2" height="20" valign=middle bgcolor="#EFEEDA">.:: Opciones de baja de familiar ::.</td>
 		</tr>
 		
 		<input type="hidden" name="cuitE" style="text-transform: uppercase;" value="<?php print $row['CUILTITU'];?>" />

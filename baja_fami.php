@@ -5,7 +5,7 @@ require_once("includes/connection.php");
 if(!isset($_SESSION["user"])) {
 	header("location:index.php");
 }
-else{
+
 $user = $_SESSION ["user"];
 
 $dniE = $_POST ["dniE"];
@@ -32,7 +32,7 @@ $aniolectivo = $_POST['haniolectivo'];
 $venfamcargo = $_POST['hvenfamcargo']; 
 $vencertdesemp = $_POST['hvencertdesemp']; 
 $fcbaj = $_POST['hfcbaj']; 
-$bajasi = $_POST['hbajasi']; 
+$bajasi = $_POST['htsindi']; 
 $fzafi = $_POST['hfzafi']; 
 $ffnac = $_POST['hffnac']; 
 $fndoc = $_POST['hfndoc']; 
@@ -62,11 +62,31 @@ $nacional = $_POST['hnacional'];
 $cuilfami = $_POST['hcuilfami'];
 $nomfami = $_POST['hnomfami'];
 
-$sqlBusca = "select FNDOC from famiba where FNDOC = '$dniE'";
+$fechabajaos = $_POST["hfechabajaos"];
+$fechabajamu = $_POST["hfechabajamu"];
+$tosoc = $_POST["htosoc"];
+$tmut = $_POST["htmut"];
+$fechaingsi = $_POST["hfechaingsi"];
+$fechaingmu = $_POST["hfechaingmu"];
+$f_estadoini = $_POST["hf_estadoini"];
+$f_estadovto = $_POST["hf_estadovto"];
+$descest = $_POST["hdescest"];
+$f_discini = $_POST["hf_discini"];
+$disc = $_POST["hdisc"];
+$discvto = $_POST["hf_discvto"];
+$descdisc = $_POST["hdescdisc"];
+$docpend = $_POST["hdocpend"];
+$otrodomi = $_POST["hotrodomi"];
+$pcifami = $_POST["hpcifami"];
+$dtofami = $_POST["hdtofami"];
+$localfami = $_POST["hlocalfami"];
+$domifami = $_POST["hdomifami"];
+$pmi = $_POST["hpmi"];
 
+$sqlBusca = "select FNDOC from famiba where FNDOC = '$dniE'";
 $resultBusca = mysql_query ( $sqlBusca );
 
-if (mysql_num_rows ( $resultBusca ) == 1) {
+if ( mysql_num_rows ( $resultBusca ) != 1 ) { $alerta = 'noexiste_bajafami'; header ( "Location: menu.php?alerta=$alerta" ); } else {
 
 	$fecha_si = '0000-00-00';
 	$fecha_os = '0000-00-00';
@@ -76,6 +96,9 @@ if (mysql_num_rows ( $resultBusca ) == 1) {
 	$marcaos = '';
 	$marcamu = '';
 
+	$band = '0';
+	}
+
 if ($_POST['todo'] == 'todo'){
 	$fecha_si = $_POST['fechatodo'];
 	$fecha_os = $_POST['fechatodo'];
@@ -84,42 +107,55 @@ if ($_POST['todo'] == 'todo'){
 	$marcasi = '*';
 	$marcaos = '*';
 	$marcamu = '*';
+
+	$band = '1';
 	}
+
+	else{
 	
-if ($_POST['sindi'] == 'sindi'){
-	$fecha_si = $_POST['fechasin'];
-	$marcasi = '*';
-}
+		if ($_POST['sindi'] == 'sindi'){
+			$fecha_si = $_POST['fechasin'];
+			$marcasi = '*';
+			$band = '1';
+			}
 
-if ($_POST['os'] == 'os'){
-	$fecha_si = $_POST['fechaos'];
-	$marcaos = '*';
-}
+		if ($_POST['os'] == 'os'){
+			$fecha_si = $_POST['fechaos'];
+			$marcaos = '*';
+			$band = '1';
+			}
 
-if ($_POST['mutual'] == 'mutual'){
-	$fecha_si = $_POST['fechamutual'];
-	$marcamu = '*';
-}
+		if ($_POST['mutual'] == 'mutual'){
+			$fecha_si = $_POST['fechamutual'];
+			$marcamu = '*';
+			$band = '1';
+			}
+		}
+
+if ($band == '0'){ $alerta = 'noselecciono'; header ( "Location: menu.php?alerta=$alerta" ); } 
+else {
 	
 	$sql = "UPDATE famiba SET 
 	FechaBajaSI = '$fecha_si',
 	FechaBajaOS = '$fecha_os',
 	FechaBajaMU = '$fecha_mu',
-	BAJASI = '$marcasi',
-	BAJAOS = '$marcaos', 
-	BAJAMU = '$marcamu'
+	TSINDI = '$marcasi',
+	TOSOC = '$marcaos', 
+	TMUT = '$marcamu',
+	SICER = 'SI'
 	WHERE FNDOC = '" . $dniE . "'";
 	$agrega = mysql_query ( $sql );
+}
 
 	/*----- HISTORIAL DE FAMIBA -----*/
-	$sqlHistorial = "insert into historial_famiba(FLETF, FDELE, FEMPR, FZONA, FNAFI, ClaveEmpresa, CUILTITU, CUITEmpresa, UnificaMutual, FORDE, APELFAMI, FTDOC, FSEXO, FechaIngOS, FechaBajaSI, FPARE, FVENC, NIVELEST, AnioLectivo, VenFamCargo, VenCertDesemp, FCBAJ, BAJASI, FZAFI, FFNAC, FNDOC, FMCRE, FMCON, FMPRA, CARGADO, RETAFI, RETDEL, SECDEL, FTDIS, FTPAT, FFVENPAT, F_PMIVTO, FFENTCRE, FAPNO, USUARIO, HaPaDjObSo, MotivoHab, InhRefVenObSoc, UltPagMutual, IPS, MotivoModifica, FMUTUAL, EstCiv, NACIONALIDAD, CUILFAMI, NOMFAMI) values ('$fletf', '$fdele', '$fempr', '$zona', '$nafi', '$claveempresa', '$cuiltitu', '$cuitempresa', '$unificamutual', '$forde', '$apelfami', '$ftdoc', '$sexo', '$fechaingos', '$fechabajasi', '$fpare', '$fvenc', '$nivelest', '$aniolectivo', '$venfamcargo', '$vencertdesemp', '$fcbaj', '$bajasi', '$fzafi', '$ffnac', '$fndoc', '$fmcre', '$fmcon', '$fmpra', '$cargado', '$retafi', '$retdel', '$secdel', '$ftdis', '$ftpat', '$ffvenpat', '$f_pmivto', '$ffentcre', '$fapno', '$usuario', '$hapadjobso', '$motivohab', '$inhrefvenobsoc', '$ultpagmutual', '$ips', '$motivomodifica', '$mutual', '$estciv', '$nacional', '$cuilfami', '$nomfami')";
+	$sqlHistorial = "insert into historial_famiba(FLETF, FDELE, FEMPR, FZONA, FNAFI, ClaveEmpresa, CUILTITU, CUITEmpresa, UnificaMutual, FORDE, APELFAMI, FTDOC, FSEXO, FechaIngOS, FechaBajaSI, FPARE, FVENC, NIVELEST, AnioLectivo, VenFamCargo, VenCertDesemp, FCBAJ, TSINDI, FZAFI, FFNAC, FNDOC, FMCRE, FMCON, FMPRA, CARGADO, RETAFI, RETDEL, SECDEL, FTDIS, FTPAT, FFVENPAT, F_PMIVTO, FFENTCRE, FAPNO, USUARIO, HaPaDjObSo, MotivoHab, InhRefVenObSoc, UltPagMutual, IPS, MotivoModifica, FMUTUAL, EstCiv, NACIONALIDAD, CUILFAMI, NOMFAMI, FechaBajaOS, FechaBajaMU, TOSOC, TMUT, FechaIngSI, FechaIngMU, F_ESTADOINI, F_ESTADOVTO, DESCEST, F_DISCINI, DISC, F_DISCVTO, DESCDISC, DOCPEND, OTRODOMI, PCIFAMI, DPTOFAMI, LOCALFAMI, DOMIFAMI, PMI) values ('$fletf', '$fdele', '$fempr', '$zona', '$nafi', '$claveempresa', '$cuiltitu', '$cuitempresa', '$unificamutual', '$forde', '$apelfami', '$ftdoc', '$sexo', '$fechaingos', '$fechabajasi', '$fpare', '$fvenc', '$nivelest', '$aniolectivo', '$venfamcargo', '$vencertdesemp', '$fcbaj', '$bajasi', '$fzafi', '$ffnac', '$fndoc', '$fmcre', '$fmcon', '$fmpra', '$cargado', '$retafi', '$retdel', '$secdel', '$ftdis', '$ftpat', '$ffvenpat', '$f_pmivto', '$ffentcre', '$fapno', '$usuario', '$hapadjobso', '$motivohab', '$inhrefvenobsoc', '$ultpagmutual', '$ips', '$motivomodifica', '$mutual', '$estciv', '$nacional', '$cuilfami', '$nomfami', '$fechabajaos', '$fechabajamu', '$tosoc', '$tmut', '$fechaingsi', '$fechaingmu', '$f_estadoini', '$f_estadovto', '$descest', '$f_discini', '$disc', '$discvto', '$descdisc', '$docpend', '$otrodomi', '$pcifami', '$dtofami', '$localfami', '$domifami', '$pmi')";
 
 	$agregaHis = mysql_query ( $sqlHistorial );
 	/* ---------------------------- */
 
 	
 	$alerta = 417; // El famliar fue dado de baja correctamente
-	if (! mysql_error ()) {
+	if (!mysql_error ()) {
 		header ( "Location: menu.php?alerta=$alerta" );
 	} else {
 		echo " ERROR al grabar sus datos. Comuniquese con el administrador <br><br> - El error es:" . mysql_errno ();
@@ -165,8 +201,4 @@ if ($_POST['mutual'] == 'mutual'){
 		}
 	}
 	mysql_close ( );
-} else {
-	$alerta = 416;
-	header ( "Location: menu.php?alerta=$alerta" );
-}}
 ?>

@@ -120,11 +120,24 @@ switch ($alerta) {
 	case 'tituenfamibaja':
 			?>
 						<script type="text/JavaScript1.2">
-							alert("2201: Error al buscar titular en familiarBAJA.php");
+							alert("2201: Error al buscar titular");
+						</script>
+			<?; break;
+	case 'noselecciono':
+			?>
+						<script type="text/JavaScript1.2">
+							alert("No ha seleccionado ninguna opci\u00f3n");
+						</script>
+			<?; break;
+	case 'noexiste_bajafami':
+			?>
+						<script type="text/JavaScript1.2">
+							alert("2202: Error al buscar familiar");
 						</script>
 			<?; break;
 }
 /*
 2201: Este error es cuando en familiarBAJA.php busca el titular para mostrar sus datos.
+2201: Error al buscar dni del familiar en baja_fami.php.
 */
 ?>
